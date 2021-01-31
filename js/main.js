@@ -6,7 +6,7 @@ function getRandomNumber(min, max) {
   max = Math.floor(max);
 
   if (min < 0 || max <= min) {
-    return 'ошибка'
+    return null
   }
 
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -17,14 +17,15 @@ getRandomNumber(1.3, 1.9)
 // функция генерации случайного дробного числа
 function getRandomFloatNumber(min, max, int) {
   if (min < 0 || max <= min) {
-    return 'ошибка'
+    return null
   }
 
   let result = (Math.random() * (max - min)) + min;
-  result = result.toFixed(int);
+  result = Number(result.toFixed(int));
 
   return result;
 }
 
 getRandomFloatNumber(1.1, 1.9, 2)
+
 
