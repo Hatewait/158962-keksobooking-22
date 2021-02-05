@@ -1,24 +1,24 @@
 'use strict'
 
-const totalObjects = 10;
-const minGuestAmount = 1;
-const maxGuestAmount = 5;
-const minRoomsAmount = 1;
-const maxRoomsAmount = 4;
-const priceArr= [3000, 5000, 15000, 25000, 50000];
-const avatarNum = ['01', '02', '03', '04', '05', '06', '07', '08']
-const housingTypeArr = ['palace', 'flat', 'house', 'bungalow'];
-const offerTitleArr = ['Уютное местечко', 'Райский уголок', 'Гнездо для двоих', 'Рай в шалаше'];
-const offerDescription = ['Это лучшее место на свете', 'Проведи свой отпуск у нас', 'Уноси скорее ноги, пока не поздно'];
-const checkinArr = ['12:00', '13:00', '14:00'];
-const checkoutArr = ['12:00', '13:00', '14:00'];
-const featuresArr = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const photosArr = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-const minCoordinateX = 35.65000;
-const maxCoordinateX = 35.70000;
-const mixCoordinateY = 139.70000;
-const maxCoordinateY = 139.80000;
-
+const TOTAL_OBJECTS_AMOUNT = 10;
+const MIN_GUESTS_AMOUNT = 1;
+const MAX_GUESTS_AMOUNT = 5;
+const MIN_ROOMS_AMOUNT = 1;
+const MAX_ROOMS_AMOUNT = 4;
+const MIN_COORDINATE_X = 35.65000;
+const MAX_COORDINATE_X = 35.70000;
+const MIN_COORDINATE_Y = 139.70000;
+const MAX_COORDINATE_Y = 139.80000;
+const MIN_AVATAR_SRC_NUMBER = 1;
+const MAX_AVATAR_SRC_NUMBER = 8;
+const offerPrices= [3000, 5000, 15000, 25000, 50000];
+const offerHousingTypes = ['palace', 'flat', 'house', 'bungalow'];
+const offerTitles = ['Уютное местечко', 'Райский уголок', 'Гнездо для двоих', 'Рай в шалаше' , 'Жуткое место' , 'Отправь сюда врага'];
+const offerDescriptions = ['Это лучшее место на свете', 'Проведи свой отпуск у нас', 'Уноси скорее ноги, пока не поздно', 'Это лучшее, что ты видел', 'У нас самое лучший отдых'];
+const offerFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const checkinTimes = ['12:00', '13:00', '14:00'];
+const checkoutTimes = ['12:00', '13:00', '14:00'];
+const offerPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 // функция генерации случайного целого числа
 function getRandomNumber(min, max) {
@@ -46,53 +46,62 @@ function getRandomFloatNumber(min, max, int) {
 
 // функция генерации случайного элемента массива (https://expange.ru/e/Случайный_элемент_массива_(JavaScript))
 function getRandomElement(arr) {
-  let rand = Math.floor(Math.random() * arr.length);
+  const rand = getRandomNumber(0, arr.length - 1);
   return arr[rand];
 }
 
-// генерируем строку из случайных координат
-function getRandomCoordinates() {
-  return getRandomFloatNumber(minCoordinateX, maxCoordinateX, 5).toString()
-    + ', '
-    + getRandomFloatNumber(mixCoordinateY, maxCoordinateY, 5).toString()
+function shuffleArray(arr){
+  for(let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    let temp = arr[j];
+    arr[j] = arr[i];
+    arr[i] = temp;
+  }
+
+  return arr;
 }
 
-// функция, которая генерирует случайную длину массива с features
-function getRandomFeaturesArr(arr) {
-  let newArr = [];
-  let rand = Math.floor(Math.random() * arr.length + 1);
-  newArr.push(arr.slice(0, rand))
+// функция, которая генерирует случайную длину массива
+function getRandomArrayLength(arr) {
+  arr = shuffleArray(arr) // превращаю исходный массив в перемешанный
+  let newArr = []; // создаю пустой массив куда буду складывать элементы
+  const randNum = getRandomNumber(1, arr.length); // генерирую случайное число на которое будет отрезаться массив
+  newArr = arr.slice(0, randNum) // кладу в пустой массив преобразованный массив
   return newArr;
 }
 
-// функция для генерации объектов
-function generatedObjects(amount) {
-  let newArr = [];
+// функция для генерации объектов с похожими предложениями
+function getSimilarOffers(amount) {
+  const newArr = [];
 
   for (let i = 0; i < amount; i++) {
+
+    const coordinateX = getRandomFloatNumber(MIN_COORDINATE_X, MAX_COORDINATE_X, 5);
+    const coordinateY = getRandomFloatNumber(MIN_COORDINATE_Y, MAX_COORDINATE_Y, 5);
+
     newArr.push(
       {
         author: {
-          avatar: 'img/avatars/user' + getRandomElement(avatarNum) + '.png',
+          avatar: 'img/avatars/user0' + getRandomNumber(MIN_AVATAR_SRC_NUMBER, MAX_AVATAR_SRC_NUMBER) + '.png',
 
         },
         offer: {
-          title: getRandomElement(offerTitleArr),
-          address: getRandomCoordinates(),
-          price: getRandomElement(priceArr),
-          type: getRandomElement(housingTypeArr),
-          rooms: getRandomNumber(minRoomsAmount, maxRoomsAmount),
-          guests: getRandomNumber(minGuestAmount, maxGuestAmount),
-          checkin: getRandomElement(checkinArr),
-          checkout: getRandomElement(checkoutArr),
-          description: getRandomElement(offerDescription),
-          features: getRandomFeaturesArr(featuresArr),
-          photos: getRandomElement(photosArr),
+          title: getRandomElement(offerTitles),
+          address: coordinateX + ', ' + coordinateY,
+          price: getRandomElement(offerPrices),
+          type: getRandomElement(offerHousingTypes),
+          rooms: getRandomNumber(MIN_ROOMS_AMOUNT, MAX_ROOMS_AMOUNT),
+          guests: getRandomNumber(MIN_GUESTS_AMOUNT, MAX_GUESTS_AMOUNT),
+          checkin: getRandomElement(checkinTimes),
+          checkout: getRandomElement(checkoutTimes),
+          description: getRandomElement(offerDescriptions),
+          features: getRandomArrayLength(offerFeatures),
+          photos: getRandomArrayLength(offerPhotos),
         },
 
         location: {
-          x: getRandomFloatNumber(minCoordinateX, maxCoordinateX, 5),
-          y: getRandomFloatNumber(mixCoordinateY, maxCoordinateY, 5),
+          x: coordinateX,
+          y: coordinateY,
         },
 
       },
@@ -101,5 +110,5 @@ function generatedObjects(amount) {
   return newArr;
 }
 
-generatedObjects(totalObjects);
-// console.log(generatedObjects(totalObjects));
+getSimilarOffers(TOTAL_OBJECTS_AMOUNT);
+// console.log(getSimilarOffers(TOTAL_OBJECTS_AMOUNT));
