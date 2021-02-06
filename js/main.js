@@ -26,6 +26,7 @@ function getRandomNumber(min, max) {
   max = Math.floor(max);
 
   if (min < 0 || max <= min) {
+
     return null
   }
 
@@ -33,53 +34,54 @@ function getRandomNumber(min, max) {
 }
 
 // функция генерации случайного дробного числа
-function getRandomFloatNumber(min, max, int) {
+function getRandomFloatNumber(min, max, integer) {
   if (min < 0 || max <= min) {
+
     return null
   }
 
-  let result = (Math.random() * (max - min)) + min;
-  result = Number(result.toFixed(int));
-
-  return result;
+  return Number((Math.random() * (max - min)) + min).toFixed(integer);
 }
 
 // функция генерации случайного элемента массива (https://expange.ru/e/Случайный_элемент_массива_(JavaScript))
-function getRandomElement(arr) {
-  const rand = getRandomNumber(0, arr.length - 1);
-  return arr[rand];
+function getRandomElement(elements) {
+  const randomElement = getRandomNumber(0, elements.length - 1);
+
+  return elements[randomElement];
 }
 
-function shuffleArray(arr){
-  for(let i = arr.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    let temp = arr[j];
-    arr[j] = arr[i];
-    arr[i] = temp;
+function shuffleArray(elements){
+  const clonedElements = elements.slice();
+
+  for(let i = clonedElements.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = clonedElements[j];
+    clonedElements[j] = clonedElements[i];
+    clonedElements[i] = temp;
   }
 
-  return arr;
+  return clonedElements;
 }
 
 // функция, которая генерирует случайную длину массива
-function getRandomArrayLength(arr) {
-  arr = shuffleArray(arr) // превращаю исходный массив в перемешанный
-  let newArr = []; // создаю пустой массив куда буду складывать элементы
-  const randNum = getRandomNumber(1, arr.length); // генерирую случайное число на которое будет отрезаться массив
-  newArr = arr.slice(0, randNum) // кладу в пустой массив преобразованный массив
-  return newArr;
+function getRandomArrayLength(elements) {
+  const randomIndex = getRandomNumber(1, elements.length); // генерирую случайное число на которое будет отрезаться массив
+  elements = shuffleArray(elements) // превращаю исходный массив в перемешанный
+  elements = elements.slice(0, randomIndex) // кладу в массив преобразованный массив
+
+  return elements;
 }
 
 // функция для генерации объектов с похожими предложениями
-function getSimilarOffers(amount) {
-  const newArr = [];
+function getSimilarOffers(offersAmount) {
+  const similarOffers = [];
 
-  for (let i = 0; i < amount; i++) {
+  for (let i = 0; i < offersAmount; i++) {
 
     const coordinateX = getRandomFloatNumber(MIN_COORDINATE_X, MAX_COORDINATE_X, 5);
     const coordinateY = getRandomFloatNumber(MIN_COORDINATE_Y, MAX_COORDINATE_Y, 5);
 
-    newArr.push(
+    similarOffers.push(
       {
         author: {
           avatar: 'img/avatars/user0' + getRandomNumber(MIN_AVATAR_SRC_NUMBER, MAX_AVATAR_SRC_NUMBER) + '.png',
@@ -107,7 +109,8 @@ function getSimilarOffers(amount) {
       },
     )
   }
-  return newArr;
+
+  return similarOffers;
 }
 
 getSimilarOffers(TOTAL_OBJECTS_AMOUNT);
