@@ -43,11 +43,11 @@ function getRandomFloatNumber(min, max, integer) {
   return Number((Math.random() * (max - min)) + min).toFixed(integer);
 }
 
-// функция генерации случайного элемента массива (https://expange.ru/e/Случайный_элемент_массива_(JavaScript))
+// функция генерации случайного 'элемента' массива (https://expange.ru/e/Случайный_элемент_массива_(JavaScript))
 function getRandomElement(elements) {
-  const randomElement = getRandomNumber(0, elements.length - 1);
+  const randomIndex = getRandomNumber(0, elements.length - 1);
 
-  return elements[randomElement];
+  return elements[randomIndex];
 }
 
 function shuffleArray(elements){
@@ -66,10 +66,8 @@ function shuffleArray(elements){
 // функция, которая генерирует случайную длину массива
 function getRandomArrayLength(elements) {
   const randomIndex = getRandomNumber(1, elements.length); // генерирую случайное число на которое будет отрезаться массив
-  elements = shuffleArray(elements) // превращаю исходный массив в перемешанный
-  elements = elements.slice(0, randomIndex) // кладу в массив преобразованный массив
 
-  return elements;
+  return shuffleArray(elements).slice(0, randomIndex);
 }
 
 // функция для генерации объектов с похожими предложениями
