@@ -1,6 +1,5 @@
 import {getRandomFloatNumber,getRandomElement, getRandomNumber, getRandomArrayLength} from './util.js'
 
-const TOTAL_OBJECTS_AMOUNT = 10;
 const MIN_GUESTS_AMOUNT = 1;
 const MAX_GUESTS_AMOUNT = 5;
 const MIN_ROOMS_AMOUNT = 1;
@@ -21,7 +20,7 @@ const checkoutTimes = ['12:00', '13:00', '14:00'];
 const offerPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 // функция для генерации объектов с похожими предложениями
-function getSimilarOffers(offersAmount) {
+export function getSimilarOffers(offersAmount) {
   const similarOffers = [];
 
   for (let i = 0; i < offersAmount; i++) {
@@ -60,6 +59,3 @@ function getSimilarOffers(offersAmount) {
 
   return similarOffers;
 }
-
-getSimilarOffers(TOTAL_OBJECTS_AMOUNT);
-// console.log(getSimilarOffers(TOTAL_OBJECTS_AMOUNT));
