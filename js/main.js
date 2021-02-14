@@ -1,4 +1,5 @@
-import {getSimilarOffers} from './data-create.js'
+import './popup.js';
+import {getSimilarOffers} from './data-create.js';
 
 const TOTAL_OBJECTS_AMOUNT = 10;
 
