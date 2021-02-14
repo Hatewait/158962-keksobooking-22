@@ -68,14 +68,6 @@ function drawOfferCard(similarOfferItem) {
     featureItem.classList.add('popup__feature', 'popup__feature--' + offerFeatures[i]);
   }
 
-  /*const similarOfferTemplateChildren = similarElement.children;
-  for (let i = 0; i < similarOfferTemplateChildren.length; i++) {
-    if (similarOfferTemplateChildren[i].textContent  === '') {
-      console.log(similarOfferTemplateChildren[i])
-      similarOfferTemplateChildren[i].remove();
-    }
-  }*/
-
   return similarElement;
 }
 
