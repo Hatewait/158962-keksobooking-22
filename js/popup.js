@@ -28,7 +28,7 @@ export function drawOfferCard(similarOfferItem) {
   similarElement.querySelector('.popup__text--price').textContent = `${similarOfferItem.offer.price} ₽/ночь`;
   similarElement.querySelector('.popup__type').textContent = getTypeOfHousing(similarOfferItem.offer.type);
   similarElement.querySelector('.popup__text--time').textContent = `${similarOfferItem.offer.rooms} комнаты для ${similarOfferItem.offer.guests} гостей`;
-  similarElement.querySelector('.popup__text--time').textContent = `Заезд после ${similarOfferItem.offer.checkin} выезд до ${similarOfferItem.offer.checkout}`;
+  similarElement.querySelector('.popup__text--time').textContent = `Заезд после ${similarOfferItem.offer.checkin}, выезд до ${similarOfferItem.offer.checkout}`;
   similarElement.querySelector('.popup__features').textContent = '';
   similarElement.querySelector('.popup__description').textContent = similarOfferItem.offer.description;
   similarElement.querySelector('.popup__photos').textContent = '';
