@@ -37,26 +37,25 @@ export function drawOfferCard(similarOfferItem) {
   // В блок .popup__photos выведите все фотографии из списка offer.photos. Каждая из строк массива photos должна записываться как src соответствующего изображения.
   const imagesContainer = similarElement.querySelector('.popup__photos');
 
-  similarOfferItem.offer.photos.forEach((element, index) => {
-    const imageItem = document.createElement('img');
-    imageItem.classList.add('popup__photo');
-    imageItem.alt = 'Фотография жилья';
-    imageItem.width = 45;
-    imageItem.height = 45;
-    imagesContainer.appendChild(imageItem);
-    imageItem.src = similarOfferItem.offer.photos[index];
+  similarOfferItem.offer.photos.forEach((element) => {
+    let newElement = document.createElement('img');
+    newElement.classList.add('popup__photo');
+    newElement.alt = 'Фотография жилья';
+    newElement.width = 45;
+    newElement.height = 45;
+    imagesContainer.appendChild(newElement);
+    newElement.src = element;
   })
 
-
-  similarOfferItem.offer.features.forEach((element, index) => {
-    const featureList = similarElement.querySelector('.popup__features');
-    const featureItem = document.createElement('li');
-    featureList.appendChild(featureItem);
-    featureItem.classList.add('popup__feature', 'popup__feature--' + similarOfferItem.offer.features[index]);
+  const featureList = similarElement.querySelector('.popup__features');
+  similarOfferItem.offer.features.forEach((element) => {
+    let newElement = document.createElement('li');
+    featureList.appendChild(newElement);
+    newElement.classList.add('popup__feature', 'popup__feature--' + element);
   })
 
-  return similarElement;
+  const similarOffersContainer = document.querySelector('.map__canvas');
+  similarOffersContainer.appendChild(similarElement);
 }
-
 
 
