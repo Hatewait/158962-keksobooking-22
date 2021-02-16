@@ -38,7 +38,7 @@ export function drawOfferCard(similarOfferItem) {
   const imagesContainer = similarElement.querySelector('.popup__photos');
 
   similarOfferItem.offer.photos.forEach((element) => {
-    let newElement = document.createElement('img');
+    const newElement = document.createElement('img');
     newElement.classList.add('popup__photo');
     newElement.alt = 'Фотография жилья';
     newElement.width = 45;
@@ -49,7 +49,7 @@ export function drawOfferCard(similarOfferItem) {
 
   const featureList = similarElement.querySelector('.popup__features');
   similarOfferItem.offer.features.forEach((element) => {
-    let newElement = document.createElement('li');
+    const newElement = document.createElement('li');
     featureList.appendChild(newElement);
     newElement.classList.add('popup__feature', 'popup__feature--' + element);
   })
