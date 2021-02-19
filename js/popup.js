@@ -54,8 +54,8 @@ export function drawOfferCard(similarOfferItem) {
     newElement.classList.add('popup__feature', 'popup__feature--' + element);
   })
 
-  const similarOffersContainer = document.querySelector('.map__canvas');
-  similarOffersContainer.appendChild(similarElement);
+//  const similarOffersContainer = document.querySelector('.map__canvas');
+//  similarOffersContainer.appendChild(similarElement);
 }
 
 
