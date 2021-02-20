@@ -1,7 +1,3 @@
-const similarOfferTemplate = document.querySelector('#card')
-  .content
-  .querySelector('.popup');
-
 function getTypeOfHousing(type) {
   switch (type) {
     case 'flat':
@@ -20,9 +16,11 @@ function getTypeOfHousing(type) {
 
 // функция для отрисовки типовой карточки на основе шаблона
 export function drawOfferCard(similarOfferItem) {
-  const similarElement = similarOfferTemplate.cloneNode(true); // клонируем полностью всю разметку из шаблона
+  const similarOfferTemplate = document.querySelector('#card')
+    .content
+    .querySelector('.popup');
+  const similarElement = similarOfferTemplate.cloneNode(true);
 
-  // в блоке, который склонировали ищем элементы по класса и перезаписываем их на свои параметры из переданного сгенерированного объекта
   similarElement.querySelector('.popup__title').textContent = similarOfferItem.offer.title;
   similarElement.querySelector('.popup__text--address').textContent = similarOfferItem.offer.address;
   similarElement.querySelector('.popup__text--price').textContent = `${similarOfferItem.offer.price} ₽/ночь`;
@@ -34,7 +32,6 @@ export function drawOfferCard(similarOfferItem) {
   similarElement.querySelector('.popup__photos').textContent = '';
   similarElement.querySelector('.popup__avatar').src = similarOfferItem.author.avatar;
 
-  // В блок .popup__photos выведите все фотографии из списка offer.photos. Каждая из строк массива photos должна записываться как src соответствующего изображения.
   const imagesContainer = similarElement.querySelector('.popup__photos');
 
   similarOfferItem.offer.photos.forEach((element) => {
@@ -54,8 +51,8 @@ export function drawOfferCard(similarOfferItem) {
     newElement.classList.add('popup__feature', 'popup__feature--' + element);
   })
 
-//  const similarOffersContainer = document.querySelector('.map__canvas');
-//  similarOffersContainer.appendChild(similarElement);
+  return similarElement;
 }
+
 
 
