@@ -1,6 +1,6 @@
 import {enableForm} from './form.js';
-import {getSimilarOffers} from './data-create.js';
 import {drawOfferCard} from './popup.js';
+import {offerCards} from './main.js';
 
 const addressField = document.querySelector('#address')
 const TOKIO_CENTER_LAT = 35.6895;
@@ -51,9 +51,6 @@ export function createMap() {
     addressField.value = `${coordinates.lat.toFixed(int)}, ${coordinates.lng.toFixed(int)}`;
 
   });
-
-  const TOTAL_OBJECTS_AMOUNT = 10;
-  const offerCards = getSimilarOffers(TOTAL_OBJECTS_AMOUNT);
 
   offerCards.forEach((element) => {
     const icon = LEAFLET_OBJECT.icon({
