@@ -26,7 +26,6 @@ export function disableForm() {
   })
 }
 
-
 export function enableForm() {
   adForm.classList.remove('ad-form--disabled');
   mapFeatures.removeAttribute('disabled');
@@ -39,7 +38,6 @@ export function enableForm() {
     element.removeAttribute('disabled');
   })
 }
-
 
 const HOUSING_TYPE_PRICES = {
   'bungalow': 0,

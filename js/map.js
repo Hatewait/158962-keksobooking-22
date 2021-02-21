@@ -2,9 +2,17 @@ import {enableForm} from './form.js';
 import {drawOfferCard} from './popup.js';
 import {offerCards} from './main.js';
 
+const MAIN_PIN_LAT = 35.6895;
+const MAIN_PIN_LNG = 139.69171;
+const MAIN_PIN_WIDTH = 40;
+const MAIN_PIN_HEIGHT = 40;
+const MAIN_PIN_ANCHOR_WIDTH = 20;
+const MAIN_PIN_ANCHOR_HEIGHT = 40;
+const PIN_WIDTH = 30;
+const PIN_HEIGHT = 30;
+const PIN_ANCHOR_WIDTH = 15;
+const PIN_ANCHOR_HEIGHT = 30;
 const addressField = document.querySelector('#address')
-const TOKIO_CENTER_LAT = 35.6895;
-const TOKIO_CENTER_LNG = 139.69171;
 
 export function createMap() {
   const LEAFLET_OBJECT = window.L;
@@ -12,11 +20,11 @@ export function createMap() {
     .on('load', () => {
       enableForm();
       addressField.setAttribute('readonly', 'readonly')
-      addressField.value = `${TOKIO_CENTER_LAT.toString()}, ${TOKIO_CENTER_LNG.toString()}`;
+      addressField.value = `${MAIN_PIN_LAT.toString()}, ${MAIN_PIN_LNG.toString()}`;
     })
     .setView({
-      lat: TOKIO_CENTER_LAT,
-      lng: TOKIO_CENTER_LNG,
+      lat: MAIN_PIN_LAT,
+      lng: MAIN_PIN_LNG,
     }, 13);
 
   LEAFLET_OBJECT.tileLayer(
@@ -28,14 +36,14 @@ export function createMap() {
 
   const mainPinIcon = LEAFLET_OBJECT.icon({
     iconUrl: '../img/main-pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconSize: [MAIN_PIN_WIDTH, MAIN_PIN_HEIGHT],
+    iconAnchor: [MAIN_PIN_ANCHOR_WIDTH, MAIN_PIN_ANCHOR_HEIGHT],
   });
 
   const mainPinMarker = LEAFLET_OBJECT.marker(
     {
-      lat: TOKIO_CENTER_LAT,
-      lng: TOKIO_CENTER_LNG,
+      lat: MAIN_PIN_LAT,
+      lng: MAIN_PIN_LNG,
     },
     {
       draggable: true,
@@ -45,7 +53,7 @@ export function createMap() {
 
   mainPinMarker.addTo(MAP);
 
-  mainPinMarker.on('moveend', (evt) => {
+  mainPinMarker.on('move', (evt) => {
     const coordinates = evt.target.getLatLng();
     const int = 5;
     addressField.value = `${coordinates.lat.toFixed(int)}, ${coordinates.lng.toFixed(int)}`;
@@ -55,8 +63,8 @@ export function createMap() {
   offerCards.forEach((element) => {
     const icon = LEAFLET_OBJECT.icon({
       iconUrl: '../img/pin.svg',
-      iconSize: [30, 30],
-      iconAnchor: [15, 30],
+      iconSize: [PIN_WIDTH, PIN_HEIGHT],
+      iconAnchor: [PIN_ANCHOR_WIDTH, PIN_ANCHOR_HEIGHT],
     });
 
     const marker = LEAFLET_OBJECT.marker(
