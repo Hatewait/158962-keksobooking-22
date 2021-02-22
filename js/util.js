@@ -47,3 +47,15 @@ export function getRandomArrayLength(elements) {
 
   return shuffleArray(elements).slice(0, randomIndex);
 }
+
+export function setAttributeDisabled (elements) {
+  elements.forEach(function (element) {
+    element.setAttribute('disabled', 'disabled');
+  })
+}
+
+export function removeAttributeDisabled (elements) {
+  elements.forEach(function (element) {
+    element.removeAttribute('disabled', 'disabled');
+  })
+}

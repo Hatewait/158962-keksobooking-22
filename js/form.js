@@ -1,3 +1,14 @@
+import {onAdTitleInput, onCapacityContainerChange, onRoomNumberContainerChange} from './validation.js';
+import {setAttributeDisabled, removeAttributeDisabled} from './util.js';
+
+const HOUSING_TYPE_PRICES = {
+  'bungalow': 0,
+  'flat': 1000,
+  'house': 5000,
+  'palace': 10000,
+}
+const DEFAULT_PRICE = 1000;
+
 const adForm = document.querySelector('.ad-form');
 const adFormFieldsets = adForm.querySelectorAll('fieldset');
 const mapFiltersContainer = document.querySelector('.map__filters');
@@ -9,44 +20,30 @@ const timeIn = adForm.querySelector('#timein');
 const timeOut = adForm.querySelector('#timeout');
 const price = adForm.querySelector('#price');
 
-const DEFAULT_PRICE = 1000;
-
-price.placeholder = DEFAULT_PRICE;
-price.setAttribute('min', price.placeholder)
-
 export function disableForm() {
   adForm.classList.add('ad-form--disabled');
   mapFeatures.setAttribute('disabled', 'disabled');
-  adFormFieldsets.forEach((element) => {
-    element.setAttribute('disabled', 'disabled');
-  })
 
-  mapFiltersElements.forEach((element) => {
-    element.setAttribute('disabled', 'disabled');
-  })
+  setAttributeDisabled(adFormFieldsets);
+  setAttributeDisabled(mapFiltersElements);
 }
 
 export function enableForm() {
+  price.placeholder = DEFAULT_PRICE;
+  price.setAttribute('min', price.placeholder);
   adForm.classList.remove('ad-form--disabled');
   mapFeatures.removeAttribute('disabled');
 
-  adFormFieldsets.forEach((element) => {
-    element.removeAttribute('disabled');
-  })
-
-  mapFiltersElements.forEach((element) => {
-    element.removeAttribute('disabled');
-  })
+  removeAttributeDisabled(adFormFieldsets)
+  removeAttributeDisabled(mapFiltersElements)
+  onCapacityContainerChange();
+  onRoomNumberContainerChange();
+  onAdTitleInput();
+  syncTimeHandler();
+  getPrice();
 }
 
-const HOUSING_TYPE_PRICES = {
-  'bungalow': 0,
-  'flat': 1000,
-  'house': 5000,
-  'palace': 10000,
-}
-
-export function syncTimeHandler() {
+function syncTimeHandler() {
   adFormTime.addEventListener('change', function (evt) {
     const optionValue = evt.target.value;
     timeOut.value = optionValue;
@@ -54,13 +51,11 @@ export function syncTimeHandler() {
   });
 }
 
-export function getPrice() {
+function getPrice() {
   housingType.addEventListener('change', function (evt) {
     const optionValue = evt.target.value;
     price.placeholder = HOUSING_TYPE_PRICES[optionValue];
     price.setAttribute('min', HOUSING_TYPE_PRICES[optionValue])
   });
 }
-
-
 

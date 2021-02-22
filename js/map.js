@@ -17,7 +17,7 @@ const addressField = document.querySelector('#address')
 export function createMap() {
   const LEAFLET_OBJECT = window.L;
   const MAP = LEAFLET_OBJECT.map('map-canvas')
-    .on('load', () => {
+    .on('load', function () {
       enableForm();
       addressField.setAttribute('readonly', 'readonly')
       addressField.value = `${MAIN_PIN_LAT.toString()}, ${MAIN_PIN_LNG.toString()}`;
@@ -53,14 +53,14 @@ export function createMap() {
 
   mainPinMarker.addTo(MAP);
 
-  mainPinMarker.on('move', (evt) => {
+  mainPinMarker.on('move', function (evt) {
     const coordinates = evt.target.getLatLng();
     const int = 5;
     addressField.value = `${coordinates.lat.toFixed(int)}, ${coordinates.lng.toFixed(int)}`;
 
   });
 
-  offerCards.forEach((element) => {
+  offerCards.forEach(function (element) {
     const icon = LEAFLET_OBJECT.icon({
       iconUrl: '../img/pin.svg',
       iconSize: [PIN_WIDTH, PIN_HEIGHT],
