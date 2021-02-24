@@ -1,4 +1,3 @@
-import {onAdTitleInput, onCapacityContainerChange, onRoomNumberContainerChange} from './validation.js';
 import {setAttributeDisabled, removeAttributeDisabled} from './util.js';
 
 const HOUSING_TYPE_PRICES = {
@@ -36,26 +35,24 @@ export function enableForm() {
 
   removeAttributeDisabled(adFormFieldsets)
   removeAttributeDisabled(mapFiltersElements)
-  onCapacityContainerChange();
-  onRoomNumberContainerChange();
-  onAdTitleInput();
-  syncTimeHandler();
-  getPrice();
 }
 
-function syncTimeHandler() {
-  adFormTime.addEventListener('change', function (evt) {
-    const optionValue = evt.target.value;
-    timeOut.value = optionValue;
-    timeIn.value = optionValue;
-  });
+function onHousingTypeChange(evt) {
+  const optionValue = evt.target.value;
+  price.placeholder = HOUSING_TYPE_PRICES[optionValue];
+  price.setAttribute('min', HOUSING_TYPE_PRICES[optionValue])
 }
 
-function getPrice() {
-  housingType.addEventListener('change', function (evt) {
-    const optionValue = evt.target.value;
-    price.placeholder = HOUSING_TYPE_PRICES[optionValue];
-    price.setAttribute('min', HOUSING_TYPE_PRICES[optionValue])
-  });
+function onAdFormTimeChange(evt) {
+  const optionValue = evt.target.value;
+  timeOut.value = optionValue;
+  timeIn.value = optionValue;
 }
 
+export function syncTime() {
+  adFormTime.addEventListener('change', onAdFormTimeChange)
+}
+
+export function getPrice() {
+  housingType.addEventListener('change', onHousingTypeChange)
+}

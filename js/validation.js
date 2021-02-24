@@ -40,23 +40,24 @@ function setDisabledForCapacityOptions() {
   })
 }
 
-export function onCapacityContainerChange() {
-  capacityContainer.addEventListener('change',  function ()  {
-    checkRoomsAndCapacityValidity();
-  });
+function onCapacityContainerChange() {
+  checkRoomsAndCapacityValidity();
 }
 
-export function onRoomNumberContainerChange() {
-  roomNumberContainer.addEventListener('change', function ()  {
-    checkRoomsAndCapacityValidity();
-    setDisabledForCapacityOptions()
-  });
+function onRoomNumberContainerChange() {
+  checkRoomsAndCapacityValidity();
+  setDisabledForCapacityOptions()
 }
 
-export function onAdTitleInput() {
-  adTitle.addEventListener('input', function ()  {
-    checkTitleValidity();
-  });
+function onAdTitleInput() {
+  checkTitleValidity();
 }
+
+export function validateForm() {
+  adTitle.addEventListener('input', onAdTitleInput);
+  roomNumberContainer.addEventListener('change', onRoomNumberContainerChange);
+  capacityContainer.addEventListener('change', onCapacityContainerChange);
+}
+
 
 
