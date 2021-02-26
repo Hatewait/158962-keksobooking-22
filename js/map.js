@@ -1,6 +1,6 @@
 import {enableForm} from './form.js';
 import {drawOfferCard} from './popup.js';
-import {offerCards} from './main.js';
+import {showAlert} from './util.js';
 
 const MAIN_PIN_LAT = 35.6895;
 const MAIN_PIN_LNG = 139.69171;
@@ -12,7 +12,11 @@ const PIN_WIDTH = 30;
 const PIN_HEIGHT = 30;
 const PIN_ANCHOR_WIDTH = 15;
 const PIN_ANCHOR_HEIGHT = 30;
-const addressField = document.querySelector('#address')
+const addressField = document.querySelector('#address');
+
+export function getDefaultCoordinates() {
+  addressField.value = `${MAIN_PIN_LAT.toString()}, ${MAIN_PIN_LNG.toString()}`;
+}
 
 export function createMap() {
   const LEAFLET_OBJECT = window.L;
@@ -20,7 +24,7 @@ export function createMap() {
     .on('load', function () {
       enableForm();
       addressField.setAttribute('readonly', 'readonly')
-      addressField.value = `${MAIN_PIN_LAT.toString()}, ${MAIN_PIN_LNG.toString()}`;
+      getDefaultCoordinates();
     })
     .setView({
       lat: MAIN_PIN_LAT,
@@ -60,28 +64,38 @@ export function createMap() {
 
   });
 
-  offerCards.forEach(function (element) {
-    const icon = LEAFLET_OBJECT.icon({
-      iconUrl: '../img/pin.svg',
-      iconSize: [PIN_WIDTH, PIN_HEIGHT],
-      iconAnchor: [PIN_ANCHOR_WIDTH, PIN_ANCHOR_HEIGHT],
+  fetch('https://22.javascript.pages.academy/keksobooking/data')
+    .then((response) => response.json())
+    .then((data) => {
+
+      data.forEach(function (element) {
+        const icon = LEAFLET_OBJECT.icon({
+          iconUrl: '../img/pin.svg',
+          iconSize: [PIN_WIDTH, PIN_HEIGHT],
+          iconAnchor: [PIN_ANCHOR_WIDTH, PIN_ANCHOR_HEIGHT],
+        });
+
+        const marker = LEAFLET_OBJECT.marker(
+          {
+            lat: element.location.lat,
+            lng: element.location.lng,
+          },
+          {
+            icon,
+          },
+        );
+
+        marker
+          .addTo(MAP)
+          .bindPopup(
+            drawOfferCard(element),
+          );
+      });
+
+    })
+    .catch(function () {
+      showAlert('Ошибка подключения. Попробуйте ещё раз');
     });
-
-    const marker = LEAFLET_OBJECT.marker(
-      {
-        lat: element.location.x,
-        lng: element.location.y,
-      },
-      {
-        icon,
-      },
-    );
-
-    marker
-      .addTo(MAP)
-      .bindPopup(
-        drawOfferCard(element),
-      );
-  });
 }
+
 

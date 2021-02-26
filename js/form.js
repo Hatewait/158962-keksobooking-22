@@ -1,4 +1,6 @@
 import {setAttributeDisabled, removeAttributeDisabled} from './util.js';
+import {isEsc} from './util.js';
+import {getDefaultCoordinates, createMap} from './map.js';
 
 const HOUSING_TYPE_PRICES = {
   'bungalow': 0,
@@ -55,4 +57,80 @@ export function syncTime() {
 
 export function getPrice() {
   housingType.addEventListener('change', onHousingTypeChange)
+}
+
+// create success message
+const resetButtonSuccess = document.querySelector('.ad-form__reset');
+const tagMain = document.querySelector('main');
+const templateFormSuccess = document.querySelector('#success')
+  .content
+  .querySelector('div');
+
+function setSuccessMessage() {
+  const cardElement = templateFormSuccess.cloneNode(true);
+  tagMain.append(cardElement);
+
+  document.addEventListener('keydown', function () {
+    if (isEsc) {
+      cardElement.remove();
+    }
+  });
+
+  document.addEventListener('click', function () {
+    cardElement.remove();
+  });
+
+  adForm.reset();
+  mapFiltersContainer.reset();
+  getDefaultCoordinates();
+}
+
+resetButtonSuccess.addEventListener('click', function () {
+  getDefaultCoordinates();
+});
+
+// create error message
+const templateFormError = document.querySelector('#error')
+  .content
+  .querySelector('div');
+
+function setErrorMessage() {
+  const cardElement = templateFormError.cloneNode(true);
+  tagMain.append(cardElement);
+
+  document.addEventListener('keydown', function () {
+    if (isEsc) {
+      cardElement.remove();
+    }
+  });
+
+  document.addEventListener('click', function () {
+    cardElement.remove();
+  });
+}
+
+
+
+export function setUserFormSubmit() {
+  adForm.addEventListener('submit', onAddFormFilling)
+}
+
+
+function onAddFormFilling(evt) {
+  evt.preventDefault();
+
+  const formData = new FormData(evt.target);
+
+  fetch(
+    'https://22.javascript.pages.academy/keksobooking',
+    {
+      method: 'POST',
+      body: formData,
+    },
+  ).then(function () {
+    setSuccessMessage();
+  })
+    .catch(function () {
+      setErrorMessage();
+    });
 }

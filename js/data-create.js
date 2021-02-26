@@ -25,8 +25,8 @@ export function getSimilarOffers(offersAmount) {
 
   for (let i = 0; i < offersAmount; i++) {
 
-    const coordinateX = getRandomFloatNumber(MIN_COORDINATE_X, MAX_COORDINATE_X, 5);
-    const coordinateY = getRandomFloatNumber(MIN_COORDINATE_Y, MAX_COORDINATE_Y, 5);
+    const LAT = getRandomFloatNumber(MIN_COORDINATE_X, MAX_COORDINATE_X, 5);
+    const LNG = getRandomFloatNumber(MIN_COORDINATE_Y, MAX_COORDINATE_Y, 5);
 
     similarOffers.push(
       {
@@ -36,7 +36,6 @@ export function getSimilarOffers(offersAmount) {
         },
         offer: {
           title: getRandomElement(offerTitles),
-          address: coordinateX + ', ' + coordinateY,
           price: getRandomElement(offerPrices),
           type: getRandomElement(offerHousingTypes),
           rooms: getRandomNumber(MIN_ROOMS_AMOUNT, MAX_ROOMS_AMOUNT),
@@ -46,11 +45,15 @@ export function getSimilarOffers(offersAmount) {
           description: getRandomElement(offerDescriptions),
           features: getRandomArrayLength(offerFeatures),
           photos: getRandomArrayLength(offerPhotos),
+          address: {
+            lat: LAT,
+            lng: LNG,
+          },
         },
 
         location: {
-          x: coordinateX,
-          y: coordinateY,
+          lat: LAT,
+          lng: LNG,
         },
 
       },
