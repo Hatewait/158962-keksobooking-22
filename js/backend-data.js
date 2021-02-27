@@ -24,8 +24,12 @@ export function sendDataToServer(evt) {
       method: 'POST',
       body: formData,
     },
-  ).then(function () {
-    setSuccessMessage();
+  ).then(function (response) {
+    if (response.ok) {
+      setSuccessMessage();
+    } else {
+      setErrorMessage();
+    }
   }).catch(function () {
     setErrorMessage();
   });
