@@ -23,10 +23,8 @@ export function drawOfferCard(similarOfferItem) {
 
   similarElement.querySelector('.popup__title').textContent = similarOfferItem.offer.title;
   const cardAddress = similarElement.querySelector('.popup__text--address')
-  cardAddress.textContent = `${similarOfferItem.offer.address.lat} это X ${similarOfferItem.offer.address.lng} это Y`;
-  if (similarOfferItem.offer.address.lat || similarOfferItem.offer.address.lng === undefined) {
-    cardAddress.remove();
-  }
+  const int = 5;
+  cardAddress.textContent = `X: ${similarOfferItem.location.lat.toFixed(int)}, Y: ${similarOfferItem.location.lng.toFixed(int)}`;
   similarElement.querySelector('.popup__text--price').textContent = `${similarOfferItem.offer.price} ₽/ночь`;
   similarElement.querySelector('.popup__type').textContent = getTypeOfHousing(similarOfferItem.offer.type);
   similarElement.querySelector('.popup__text--time').textContent = `${similarOfferItem.offer.rooms} комнаты для ${similarOfferItem.offer.guests} гостей`;

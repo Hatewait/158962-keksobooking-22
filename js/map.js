@@ -1,6 +1,6 @@
 import {enableForm} from './form.js';
 import {drawOfferCard} from './popup.js';
-import {showAlert} from './util.js';
+import {getDataFromServer, sendDataToServer} from './backend-data.js'
 
 const MAIN_PIN_LAT = 35.6895;
 const MAIN_PIN_LNG = 139.69171;
@@ -13,18 +13,17 @@ const PIN_HEIGHT = 30;
 const PIN_ANCHOR_WIDTH = 15;
 const PIN_ANCHOR_HEIGHT = 30;
 const addressField = document.querySelector('#address');
+const resetButton = document.querySelector('.ad-form__reset');
+const adForm = document.querySelector('.ad-form');
+const mapFiltersContainer = document.querySelector('.map__filters');
 
-export function getDefaultCoordinates() {
-  addressField.value = `${MAIN_PIN_LAT.toString()}, ${MAIN_PIN_LNG.toString()}`;
-}
-
-export function createMap() {
+export async function createMap() {
   const LEAFLET_OBJECT = window.L;
   const MAP = LEAFLET_OBJECT.map('map-canvas')
     .on('load', function () {
       enableForm();
       addressField.setAttribute('readonly', 'readonly')
-      getDefaultCoordinates();
+      addressField.value = `${MAIN_PIN_LAT.toString()}, ${MAIN_PIN_LNG.toString()}`;
     })
     .setView({
       lat: MAIN_PIN_LAT,
@@ -64,38 +63,53 @@ export function createMap() {
 
   });
 
-  fetch('https://22.javascript.pages.academy/keksobooking/data')
-    .then((response) => response.json())
-    .then((data) => {
-
-      data.forEach(function (element) {
-        const icon = LEAFLET_OBJECT.icon({
-          iconUrl: '../img/pin.svg',
-          iconSize: [PIN_WIDTH, PIN_HEIGHT],
-          iconAnchor: [PIN_ANCHOR_WIDTH, PIN_ANCHOR_HEIGHT],
-        });
-
-        const marker = LEAFLET_OBJECT.marker(
-          {
-            lat: element.location.lat,
-            lng: element.location.lng,
-          },
-          {
-            icon,
-          },
-        );
-
-        marker
-          .addTo(MAP)
-          .bindPopup(
-            drawOfferCard(element),
-          );
-      });
-
-    })
-    .catch(function () {
-      showAlert('Ошибка подключения. Попробуйте ещё раз');
+  const backendData = getDataFromServer();
+  const elements = await backendData;
+  elements.forEach(function (element) {
+    const icon = LEAFLET_OBJECT.icon({
+      iconUrl: '../img/pin.svg',
+      iconSize: [PIN_WIDTH, PIN_HEIGHT],
+      iconAnchor: [PIN_ANCHOR_WIDTH, PIN_ANCHOR_HEIGHT],
     });
-}
 
+    const marker = LEAFLET_OBJECT.marker(
+      {
+        lat: element.location.lat,
+        lng: element.location.lng,
+      },
+      {
+        icon,
+      },
+    );
+
+    marker
+      .addTo(MAP)
+      .bindPopup(
+        drawOfferCard(element),
+      );
+  });
+
+  function setMainPinToDefault() {
+    MAP.setView(new LEAFLET_OBJECT.LatLng(MAIN_PIN_LAT, MAIN_PIN_LNG))
+    mainPinMarker.setLatLng(new LEAFLET_OBJECT.LatLng(MAIN_PIN_LAT, MAIN_PIN_LNG))
+  }
+
+  function onResetButtonClick(evt) {
+    evt.preventDefault();
+    adForm.reset();
+    mapFiltersContainer.reset();
+    setMainPinToDefault();
+  }
+
+  function onAdFormSubmit(evt) {
+    evt.preventDefault();
+    sendDataToServer(evt);
+    adForm.reset();
+    mapFiltersContainer.reset();
+    setMainPinToDefault();
+  }
+
+  resetButton.addEventListener('click', onResetButtonClick);
+  adForm.addEventListener('submit', onAdFormSubmit);
+}
 
