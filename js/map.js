@@ -1,6 +1,6 @@
 import {enableForm} from './form.js';
 import {drawOfferCard} from './popup.js';
-import {offerCards} from './main.js';
+import {getDataFromServer, sendDataToServer} from './backend-data.js'
 
 const MAIN_PIN_LAT = 35.6895;
 const MAIN_PIN_LNG = 139.69171;
@@ -12,9 +12,12 @@ const PIN_WIDTH = 30;
 const PIN_HEIGHT = 30;
 const PIN_ANCHOR_WIDTH = 15;
 const PIN_ANCHOR_HEIGHT = 30;
-const addressField = document.querySelector('#address')
+const addressField = document.querySelector('#address');
+const resetButton = document.querySelector('.ad-form__reset');
+const adForm = document.querySelector('.ad-form');
+const mapFiltersContainer = document.querySelector('.map__filters');
 
-export function createMap() {
+export async function createMap() {
   const LEAFLET_OBJECT = window.L;
   const MAP = LEAFLET_OBJECT.map('map-canvas')
     .on('load', function () {
@@ -60,7 +63,9 @@ export function createMap() {
 
   });
 
-  offerCards.forEach(function (element) {
+  const backendData = getDataFromServer();
+  const elements = await backendData;
+  elements.forEach(function (element) {
     const icon = LEAFLET_OBJECT.icon({
       iconUrl: '../img/pin.svg',
       iconSize: [PIN_WIDTH, PIN_HEIGHT],
@@ -69,8 +74,8 @@ export function createMap() {
 
     const marker = LEAFLET_OBJECT.marker(
       {
-        lat: element.location.x,
-        lng: element.location.y,
+        lat: element.location.lat,
+        lng: element.location.lng,
       },
       {
         icon,
@@ -83,5 +88,28 @@ export function createMap() {
         drawOfferCard(element),
       );
   });
+
+  function setMainPinToDefault() {
+    MAP.setView(new LEAFLET_OBJECT.LatLng(MAIN_PIN_LAT, MAIN_PIN_LNG))
+    mainPinMarker.setLatLng(new LEAFLET_OBJECT.LatLng(MAIN_PIN_LAT, MAIN_PIN_LNG))
+  }
+
+  function onResetButtonClick(evt) {
+    evt.preventDefault();
+    adForm.reset();
+    mapFiltersContainer.reset();
+    setMainPinToDefault();
+  }
+
+  function onAdFormSubmit(evt) {
+    evt.preventDefault();
+    sendDataToServer(evt);
+    adForm.reset();
+    mapFiltersContainer.reset();
+    setMainPinToDefault();
+  }
+
+  resetButton.addEventListener('click', onResetButtonClick);
+  adForm.addEventListener('submit', onAdFormSubmit);
 }
 

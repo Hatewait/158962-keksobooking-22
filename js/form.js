@@ -10,9 +10,8 @@ const DEFAULT_PRICE = 1000;
 
 const adForm = document.querySelector('.ad-form');
 const adFormFieldsets = adForm.querySelectorAll('fieldset');
-const mapFiltersContainer = document.querySelector('.map__filters');
-const mapFiltersElements = mapFiltersContainer.querySelectorAll('select')
-const mapFeatures = mapFiltersContainer.querySelector('.map__features');
+const mapFiltersElements = document.querySelectorAll('select')
+const mapFeatures = document.querySelector('.map__features');
 const housingType = adForm.querySelector('#type');
 const adFormTime = document.querySelector('.ad-form__element--time');
 const timeIn = adForm.querySelector('#timein');
@@ -56,3 +55,4 @@ export function syncTime() {
 export function getPrice() {
   housingType.addEventListener('change', onHousingTypeChange)
 }
+
