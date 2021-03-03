@@ -1,7 +1,13 @@
+import {sendDataToServer} from './backend-data.js';
+import {setMainPinToDefault} from './map.js';
+
 const adTitle = document.querySelector('#title');
 const roomNumberContainer = document.querySelector('#room_number');
 const capacityContainer = document.querySelector('#capacity');
 const capacityOptions = capacityContainer.querySelectorAll('option');
+const resetButton = document.querySelector('.ad-form__reset');
+const adForm = document.querySelector('.ad-form');
+export const mapFiltersContainer = document.querySelector('.map__filters');
 
 function checkTitleValidity() {
   if (adTitle.validity.tooShort) {
@@ -59,5 +65,20 @@ export function validateForm() {
   capacityContainer.addEventListener('change', onCapacityContainerChange);
 }
 
+function onResetButtonClick(evt) {
+  evt.preventDefault();
+  adForm.reset();
+  mapFiltersContainer.reset();
+  setMainPinToDefault();
+}
 
+function onAdFormSubmit(evt) {
+  evt.preventDefault();
+  sendDataToServer(evt);
+  adForm.reset();
+  mapFiltersContainer.reset();
+  setMainPinToDefault();
+}
 
+resetButton.addEventListener('click', onResetButtonClick);
+adForm.addEventListener('submit', onAdFormSubmit);
