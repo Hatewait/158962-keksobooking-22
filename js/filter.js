@@ -58,10 +58,10 @@ function getFilteredData(data) {
 
 // Вывод необходимого количества карточек
 export function filterOffers(data) {
-  return data.slice().filter(getFilteredData);
+  return data.filter(getFilteredData);
 }
 
-export function onFilterChange(cb) {
+export function updateFilteredData(cb) {
   mapFiltersContainer.addEventListener('change', function () {
     cb();
   });
