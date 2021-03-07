@@ -44,11 +44,18 @@ function getFeaturesFilter(data) {
     return data.offer.features.includes(input.value);
   })
 }
+function getHousingTypeData(data) {
+  return housingRooms.value === 'any' || +housingRooms.value === data.offer.rooms;
+}
+
+function getGuestData(data) {
+  return housingGuests.value === 'any' || +housingGuests.value === data.offer.guests;
+}
 
 
 function getFilteredData(data) {
-  const rooms = housingRooms.value === 'any' || +housingRooms.value === data.offer.rooms;
-  const guests = housingGuests.value === 'any' || +housingGuests.value === data.offer.guests;
+  const rooms = getHousingTypeData(data);
+  const guests = getGuestData(data);
   const type = getAccommodationFilter(data);
   const price = getPriceFilter(data);
   const features = getFeaturesFilter(data);
