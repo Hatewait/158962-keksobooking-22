@@ -32,7 +32,7 @@ function onFileChooserChange() {
   prepareFileToUpload(avatarFileChooser, userAvatar)
 }
 
-export function uploadAvatar() {
+export function uploadAvatarPhoto() {
   avatarFileChooser.addEventListener('change', onFileChooserChange);
 }
 
@@ -40,6 +40,6 @@ function onAccommodationFileChooserChange() {
   prepareFileToUpload(accommodationFileChooser, housingAvatar);
 }
 
-export function uploadAccommodationFile() {
+export function uploadAccommodationPhoto() {
   accommodationFileChooser.addEventListener('change', onAccommodationFileChooserChange);
 }
