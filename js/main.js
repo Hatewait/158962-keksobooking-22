@@ -15,6 +15,6 @@ getDataFromServer(function (data) {
   createAdds(data);
   updateFilteredData(_.debounce(function() {
     createAdds(data)
-  }), RERENDER_DELAY)
+  }, RERENDER_DELAY))
 })
 
