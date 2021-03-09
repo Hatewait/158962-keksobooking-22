@@ -1,5 +1,7 @@
 import {sendDataToServer} from './backend-data.js';
 import {setMainPinToDefault} from './map.js';
+import {housingAvatar, userAvatar} from './upload-file.js';
+
 
 const adTitle = document.querySelector('#title');
 const roomNumberContainer = document.querySelector('#room_number');
@@ -7,6 +9,7 @@ const capacityContainer = document.querySelector('#capacity');
 const capacityOptions = capacityContainer.querySelectorAll('option');
 const resetButton = document.querySelector('.ad-form__reset');
 const adForm = document.querySelector('.ad-form');
+const defaultUserAvatarSrc = 'img/muffin-grey.svg';
 export const mapFiltersContainer = document.querySelector('.map__filters');
 
 function checkTitleValidity() {
@@ -70,6 +73,8 @@ function onResetButtonClick(evt) {
   adForm.reset();
   mapFiltersContainer.reset();
   setMainPinToDefault();
+  housingAvatar.src = '';
+  userAvatar.src = defaultUserAvatarSrc;
 }
 
 function onAdFormSubmit(evt) {
@@ -78,6 +83,8 @@ function onAdFormSubmit(evt) {
   adForm.reset();
   mapFiltersContainer.reset();
   setMainPinToDefault();
+  housingAvatar.src = '';
+  userAvatar.src = defaultUserAvatarSrc;
 }
 
 resetButton.addEventListener('click', onResetButtonClick);
