@@ -68,8 +68,9 @@ export function validateForm() {
   capacityContainer.addEventListener('change', onCapacityContainerChange);
 }
 
-function onResetButtonClick(evt) {
-  evt.preventDefault();
+function resetToDefault() {
+  const resetPins = new Event('change');
+  mapFiltersContainer.dispatchEvent(resetPins);
   adForm.reset();
   mapFiltersContainer.reset();
   setMainPinToDefault();
@@ -77,14 +78,15 @@ function onResetButtonClick(evt) {
   userAvatar.src = defaultUserAvatarSrc;
 }
 
+function onResetButtonClick(evt) {
+  evt.preventDefault();
+  resetToDefault();
+}
+
 function onAdFormSubmit(evt) {
   evt.preventDefault();
   sendDataToServer(evt);
-  adForm.reset();
-  mapFiltersContainer.reset();
-  setMainPinToDefault();
-  housingAvatar.src = '';
-  userAvatar.src = defaultUserAvatarSrc;
+  resetToDefault();
 }
 
 resetButton.addEventListener('click', onResetButtonClick);
