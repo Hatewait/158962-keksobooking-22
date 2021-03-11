@@ -37,7 +37,6 @@ function getAccommodationFilter(data) {
 }
 
 function getFeaturesFilter(data) {
-  // превращаем коллекцию в массив
   const isCheckedFeatures = Array.from(housingFeatures.querySelectorAll('input:checked'));
 
   return isCheckedFeatures.every(function (input) {
@@ -63,7 +62,6 @@ function getFilteredData(data) {
   return type && price && rooms && guests && features;
 }
 
-// Вывод необходимого количества карточек
 export function filterOffers(data) {
   return data.filter(getFilteredData);
 }

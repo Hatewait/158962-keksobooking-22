@@ -14,7 +14,6 @@ function getTypeOfHousing(type) {
   }
 }
 
-// функция для отрисовки типовой карточки на основе шаблона
 export function drawOfferCard(similarOfferItem) {
   const similarOfferTemplate = document.querySelector('#card')
     .content

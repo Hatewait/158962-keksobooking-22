@@ -39,7 +39,6 @@ export function showAlert(message)  {
 
 const tagMain = document.querySelector('main');
 
-// create success message
 export function setSuccessMessage() {
   const templateFormSuccess = document.querySelector('#success')
     .content
@@ -59,7 +58,6 @@ export function setSuccessMessage() {
   });
 }
 
-// create error message
 export function setErrorMessage() {
   const templateFormError = document.querySelector('#error')
     .content
